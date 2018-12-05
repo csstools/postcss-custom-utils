@@ -1,0 +1,10 @@
+@custom-media --mq-a (max-width: 30em), (max-height: 30em);
+@custom-media --not-mq-a not all and (--mq-a);
+
+@custom-selector :--foo .foo;
+@custom-selector :--any-heading h1, h2, h3, h4, h5, h6;
+@custom-selector :--foobar .foo;
+
+:root {
+	--length-1: 10px;
+}

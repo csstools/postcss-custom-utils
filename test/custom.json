@@ -1,0 +1,11 @@
+{
+  "custom-media": {
+    "--mq-a": "(max-width: 30em), (max-height: 30em)"
+  },
+	"custom-properties": {
+		"--length-4": "25px"
+  },
+  "custom-selectors": {
+    ":--heading": "h1, h2, h3"
+  }
+}

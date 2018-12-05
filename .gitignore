@@ -1,0 +1,10 @@
+node_modules
+package-lock.json
+*.log*
+.*
+!.editorconfig
+!.gitignore
+!.travis.yml
+/index.js*
+/index.mjs*
+/test/export.*

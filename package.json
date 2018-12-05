@@ -1,0 +1,55 @@
+{
+  "name": "postcss-custom-utils",
+  "version": "0.1.0",
+  "description": "Read, write, and transform Custom Media and Custom Properties from almost anywhere",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "license": "CC0-1.0",
+  "repository": "jonathantneal/postcss-custom-utils",
+  "homepage": "https://github.com/jonathantneal/postcss-custom-utils#readme",
+  "bugs": "https://github.com/jonathantneal/postcss-custom-utils/issues",
+  "main": "index.js",
+  "module": "index.js",
+  "files": [
+    "index.js",
+    "index.js.map",
+    "index.mjs",
+    "index.mjs.map"
+  ],
+  "scripts": {
+    "build": "rollup --config --silent",
+    "test": "npm run test:js && npm run test:node",
+    "test:js": "eslint src/*.js src/lib/*.js --cache --ignore-path .gitignore --quiet",
+    "pretest:node": "npm run build",
+    "test:node": "node test"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "postcss": "^7.0.6",
+    "postcss-selector-parser": "^5.0.0-rc.4",
+    "postcss-values-parser": "^2.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.9.0",
+    "eslint-config-dev": "2.0.0",
+    "rollup": "^0.67.4",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-terser": "^3.0.0"
+  },
+  "eslintConfig": {
+    "extends": "dev",
+    "parser": "babel-eslint"
+  },
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "javascript",
+    "js"
+  ]
+}
