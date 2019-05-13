@@ -13,7 +13,7 @@ export default {
 				'@babel/syntax-dynamic-import'
 			],
 			presets: [
-				['@babel/env', { targets: { node: 6 } }]
+				['@babel/env', { targets: { node: 8 } }]
 			]
 		})
 	]
