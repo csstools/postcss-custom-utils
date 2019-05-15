@@ -3,7 +3,7 @@ export default function transformNodeWithCustomProperties(node, customProperties
 		node.nodes.slice().forEach(child => {
 			if (isVarFunction(child)) {
 				// eslint-disable-next-line no-unused-vars
-				const [propertyNode, comma, ...fallbacks] = child.nodes.slice(1, -1);
+				const [propertyNode, comma, ...fallbacks] = child.nodes;
 				const { value: name } = propertyNode;
 
 				if (name in customProperties) {
@@ -76,7 +76,7 @@ function asClonedArray(array, parent) {
 
 // whether the node is a var() function
 function isVarFunction(node) {
-	return Object(node).type === 'func' && varRegExp.test(node.value) && Object(node.nodes).length > 0;
+	return Object(node).type === 'func' && varRegExp.test(node.name) && Object(node.nodes).length > 0;
 }
 
 // match var() functions
