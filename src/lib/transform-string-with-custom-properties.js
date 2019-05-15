@@ -1,4 +1,4 @@
-import valueParser from 'postcss-values-parser';
+import { parse as valueParser } from 'postcss-values-parser';
 import transformNodeWithCustomProperties from './transform-node-with-custom-properties';
 
 /**
@@ -9,7 +9,7 @@ import transformNodeWithCustomProperties from './transform-node-with-custom-prop
  */
 
 export default function transformValueWithCustomProperties(string, customProperties) {
-	const valueAST = valueParser(string).parse();
+	const valueAST = valueParser(string);
 	const modifiedString = String(transformNodeWithCustomProperties(valueAST, customProperties));
 
 	return modifiedString;

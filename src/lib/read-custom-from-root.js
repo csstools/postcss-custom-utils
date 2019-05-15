@@ -1,5 +1,5 @@
 import parseCustomMediaFromString from './parse-custom-media-from-string';
-import valueParser from 'postcss-values-parser';
+import { parse as valueParser } from 'postcss-values-parser';
 import selectorParser from './parse-selector';
 
 /**
@@ -31,7 +31,7 @@ export default function readCustomPropertiesFromRoot(root, preserve) {
 					const { prop } = decl;
 
 					// write the parsed value to the custom property
-					customPropertiesObject[prop] = valueParser(decl.value).parse().nodes;
+					customPropertiesObject[prop] = valueParser(decl.value).nodes;
 
 					// conditionally remove the custom property declaration
 					if (!preserve) {

@@ -1,4 +1,4 @@
-import valueParser from 'postcss-values-parser';
+import { parse as valueParser } from 'postcss-values-parser';
 import parseCustomMediaFromString from './parse-custom-media-from-string';
 import parseSelector from './parse-selector';
 
@@ -30,7 +30,7 @@ export default function readCustomPropertiesFromObject(object) {
 	}
 
 	for (const key in customProperties) {
-		customProperties[key] = valueParser(String(customProperties[key])).parse().nodes;
+		customProperties[key] = valueParser(String(customProperties[key])).nodes;
 	}
 
 	for (const key in customSelectors) {
