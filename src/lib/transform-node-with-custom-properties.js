@@ -76,5 +76,8 @@ function asClonedArray(array, parent) {
 
 // whether the node is a var() function
 function isVarFunction(node) {
-	return Object(node).name === 'var' && Object(node.nodes).length > 0;
+	return Object(node).type === 'func' && varRegExp.test(node.name) && Object(node.nodes).length > 0;
 }
+
+// match var() functions
+const varRegExp = /^var$/i;
