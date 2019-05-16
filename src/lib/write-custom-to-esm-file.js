@@ -6,7 +6,7 @@ import { writeFile } from './fs-utils';
  * @param {Object} custom - The object of Custom Media and Properties written to the file.
  */
 
-export default function writeCustomToEsmFile(to, custom) {
+export default function writeCustomToEsmFile (to, custom) {
 	const esmMediaContents = Object.keys(Object(custom.customMedia)).reduce((esmLines, name) => {
 		esmLines.push(`\t'${escapeForJS(name)}': '${escapeForJS(custom.customMedia[name])}'`);
 
@@ -33,6 +33,6 @@ export default function writeCustomToEsmFile(to, custom) {
 	return writeFile(to, esm);
 }
 
-function escapeForJS(string) {
+function escapeForJS (string) {
 	return string.replace(/\\([\s\S])|(')/g, '\\$1$2').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
 }

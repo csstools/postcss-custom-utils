@@ -8,7 +8,7 @@ import { readFile } from './fs-utils';
  * @return {Object} The Custom Media and Custom Properties read from the file.
  */
 
-export default async function readCustomFromCssFile(from) {
+export default async function readCustomFromCssFile (from) {
 	const css = await readFile(from);
 	const root = postcss.parse(css, { from });
 

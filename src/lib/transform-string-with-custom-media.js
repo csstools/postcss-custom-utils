@@ -9,7 +9,7 @@ import transformNodeWithCustomMedia from './transform-node-with-custom-media';
  * @return {String} The media parameters that have been transformed.
  */
 
-export default function transformStringWithCustomMedia(string, customMedia) {
+export default function transformStringWithCustomMedia (string, customMedia) {
 	const mediaAST = parseCustomMediaFromString(string);
 
 	const modifiedString = String(transformNodeWithCustomMedia(mediaAST, customMedia));

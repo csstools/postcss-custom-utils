@@ -1,5 +1,5 @@
 // return transformed medias, replacing custom pseudo medias with custom medias
-export default function transformMediaList(mediaList, customMedias) {
+export default function transformMediaList (mediaList, customMedias) {
 	let index = mediaList.nodes.length - 1;
 
 	while (index >= 0) {
@@ -16,7 +16,7 @@ export default function transformMediaList(mediaList, customMedias) {
 }
 
 // return custom pseudo medias replaced with custom medias
-function transformMedia(media, customMedias) {
+function transformMedia (media, customMedias) {
 	const transpiledMedias = [];
 
 	for (const index in media.nodes) {

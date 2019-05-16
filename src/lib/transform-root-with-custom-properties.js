@@ -8,7 +8,7 @@ import transformDeclWithCustomProperties from './transform-decl-with-custom-prop
  * @return {Object} The root node having been walked and transformed.
  */
 
-export default function transformRootWithCustomProperties(root, customProperties, preserve) {
+export default function transformRootWithCustomProperties (root, customProperties, preserve) {
 	root.walkDecls(decl => {
 		transformDeclWithCustomProperties(decl, customProperties, preserve);
 	});

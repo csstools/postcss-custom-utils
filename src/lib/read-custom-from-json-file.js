@@ -7,7 +7,7 @@ import { readJSON } from './fs-utils';
  * @return {Object} The Custom Media and Custom Properties read from the file.
  */
 
-export default async function readCustomFromJsonFile(from) {
+export default async function readCustomFromJsonFile (from) {
 	const object = await readJSON(from);
 
 	return readCustomFromObject(object);

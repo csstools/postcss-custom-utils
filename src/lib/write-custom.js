@@ -10,7 +10,7 @@ import writeCustomToJsonFile from './write-custom-to-json-file';
  * @param {...Any} destinations - The pathname or object being written to.
  */
 
-export default function writeCustom(custom, ...destinations) {
+export default function writeCustom (custom, ...destinations) {
 	return Promise.all(destinations.map(destination => {
 		if (destination instanceof Function) {
 			return Promise.resolve(
@@ -71,7 +71,7 @@ export default function writeCustom(custom, ...destinations) {
 /* Helper utilities
 /* ========================================================================== */
 
-function defaultCustomToJSON(custom) {
+function defaultCustomToJSON (custom) {
 	const json = {};
 
 	if (Object(custom.customMedia) === custom.customMedia) {
@@ -88,7 +88,7 @@ function defaultCustomToJSON(custom) {
 
 	return json;
 
-	function stringifyKeys(object) {
+	function stringifyKeys (object) {
 		const result = {};
 
 		Object.keys(object).forEach(

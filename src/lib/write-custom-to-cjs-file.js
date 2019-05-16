@@ -6,7 +6,7 @@ import { writeFile } from './fs-utils';
  * @param {Object} custom - The object of Custom Media and Custom Properties written to the file.
  */
 
-export default function writeCustomToCjsFile(to, custom) {
+export default function writeCustomToCjsFile (to, custom) {
 	const cjsMediaContents = Object.keys(Object(custom.customMedia)).reduce((cjsLines, name) => {
 		cjsLines.push(`\t\t'${escapeForJS(name)}': '${escapeForJS(custom.customMedia[name])}'`);
 
@@ -33,6 +33,6 @@ export default function writeCustomToCjsFile(to, custom) {
 	return writeFile(to, cjs);
 }
 
-function escapeForJS(string) {
+function escapeForJS (string) {
 	return string.replace(/\\([\s\S])|(')/g, '\\$1$2').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
 }

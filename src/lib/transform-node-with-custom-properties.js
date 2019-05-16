@@ -1,4 +1,4 @@
-export default function transformNodeWithCustomProperties(node, customProperties) {
+export default function transformNodeWithCustomProperties (node, customProperties) {
 	if (node.nodes && node.nodes.length) {
 		node.nodes.slice().forEach(child => {
 			if (isVarFunction(child)) {
@@ -33,7 +33,7 @@ export default function transformNodeWithCustomProperties(node, customProperties
 }
 
 // retransform the current ast without a custom property (to prevent recursion)
-function retransformNodeWithCustomProperties(root, customProperties, withoutProperty) {
+function retransformNodeWithCustomProperties (root, customProperties, withoutProperty) {
 	const nextCustomProperties = Object.assign({}, customProperties);
 
 	delete nextCustomProperties[withoutProperty];
@@ -42,7 +42,7 @@ function retransformNodeWithCustomProperties(root, customProperties, withoutProp
 }
 
 // return an array with its nodes cloned, preserving the raw
-function asClonedArrayWithBeforeSpacing(array, beforeSpacing) {
+function asClonedArrayWithBeforeSpacing (array, beforeSpacing) {
 	const clonedArray = asClonedArray(array, null);
 
 	if (clonedArray[0]) {
@@ -53,7 +53,7 @@ function asClonedArrayWithBeforeSpacing(array, beforeSpacing) {
 }
 
 // return a cloned node
-function asClonedNode(node, parent) {
+function asClonedNode (node, parent) {
 	const cloneNode = new node.constructor(node);
 
 	for (const key in node) {
@@ -70,12 +70,12 @@ function asClonedNode(node, parent) {
 }
 
 // return an array with its nodes cloned
-function asClonedArray(array, parent) {
+function asClonedArray (array, parent) {
 	return array.map(node => asClonedNode(node, parent));
 }
 
 // whether the node is a var() function
-function isVarFunction(node) {
+function isVarFunction (node) {
 	return Object(node).type === 'func' && varRegExp.test(node.name) && Object(node.nodes).length > 0;
 }
 

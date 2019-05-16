@@ -9,7 +9,7 @@ import transformRootWithCustomProperties from './transform-root-with-custom-prop
  * @return {Object} The root node having been walked and transformed.
  */
 
-export default function transformRootWithCustom(root, custom, preserve) {
+export default function transformRootWithCustom (root, custom, preserve) {
 	transformRootWithCustomMedia(root, Object(custom.customMedia), preserve);
 	transformRootWithCustomProperties(root, Object(custom.customProperties), preserve);
 
