@@ -36,14 +36,24 @@
     "@babel/preset-env": "^7.4.4",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
-    "eslint-config-dev": "2.0.0",
     "rollup": "^1.12.1",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-terser": "^4.0.4"
   },
   "eslintConfig": {
-    "extends": "dev",
-    "parser": "babel-eslint"
+    "root": true,
+    "env": {
+      "browser": true,
+      "es6": true,
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "impliedStrict": true,
+      "sourceType": "module"
+    },
+    "extends": "eslint:recommended"
   },
   "keywords": [
     "postcss",
