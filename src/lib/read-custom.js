@@ -10,7 +10,7 @@ import readCustomFromObject from './read-custom-from-object';
  * @return {Object} The Custom Media and Custom Properties read from the sources.
  */
 
- export default function readCustom(...sources) {
+export default function readCustom(...sources) {
 	return sources.map(source => {
 		if (source instanceof Promise) {
 			return source;
@@ -41,42 +41,16 @@ import readCustomFromObject from './read-custom-from-object';
 		const { type, from } = await source;
 		const resolvedCustom = await custom;
 
-		if (type === 'css') {
-			const { customMedia, customProperties, customSelectors } = await readCustomFromCssFile(from);
-
-			return {
-				customMedia: Object.assign(Object(resolvedCustom.customMedia), customMedia),
-				customProperties: Object.assign(Object(resolvedCustom.customProperties), customProperties),
-				customSelectors: Object.assign(Object(resolvedCustom.customSelectors), customSelectors)
-			};
-		}
-
-		if (type === 'js') {
-			const { customMedia, customProperties, customSelectors } = await readCustomFromCjsFile(from);
-
-			return {
-				customMedia: Object.assign(Object(resolvedCustom.customMedia), customMedia),
-				customProperties: Object.assign(Object(resolvedCustom.customProperties), customProperties),
-				customSelectors: Object.assign(Object(resolvedCustom.customSelectors), customSelectors)
-			};
-		}
-
-		if (type === 'json') {
-			const { customMedia, customProperties, customSelectors } = await readCustomFromJsonFile(from);
-
-			return {
-				customMedia: Object.assign(Object(resolvedCustom.customMedia), customMedia),
-				customProperties: Object.assign(Object(resolvedCustom.customProperties), customProperties),
-				customSelectors: Object.assign(Object(resolvedCustom.customSelectors), customSelectors)
-			};
-		}
-
-		const resolvedObject = await readCustomFromObject(await source);
+		const { customMedia, customProperties, customSelectors } =
+			type === 'css' ? await readCustomFromCssFile(from) :
+			type === 'js' ? await readCustomFromCjsFile(from) :
+			type === 'json' ? await readCustomFromJsonFile(from) :
+			await readCustomFromObject(await source);
 
 		return {
-			customMedia: Object.assign(Object(resolvedCustom.customMedia), resolvedObject.customMedia),
-			customProperties: Object.assign(Object(resolvedCustom.customProperties), resolvedObject.customProperties),
-			customSelectors: Object.assign(Object(resolvedCustom.customSelectors), resolvedObject.customSelectors)
+			customMedia: Object.assign(Object(resolvedCustom.customMedia), customMedia),
+			customProperties: Object.assign(Object(resolvedCustom.customProperties), customProperties),
+			customSelectors: Object.assign(Object(resolvedCustom.customSelectors), customSelectors)
 		};
 	}, {});
 }
