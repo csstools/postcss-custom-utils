@@ -1,187 +1,223 @@
-const postcss = require('postcss');
 const utils = require('.');
+const postcss = require('postcss');
 
-[
-	/* Test Custom Media and Custom Properties from various sources */
-	() => utils.readCustom(
+
+describe('transformStringWith* from various sources', () => {
+	const testSourcesContent = utils.readCustom(
 		'./test/custom.css',
 		'./test/custom.js',
-		{ customProperties: { '--length-3': '20px' } }
-	).then(
-		custom => {
-			/* Test Custom Media */
-			const sourceParams = 'all and (--mq-a)';
-			const expectParams = 'all and (max-width: 30em),all and (max-height: 30em)';
-			const resultParams = utils.transformStringWithCustomMedia(sourceParams, custom.customMedia);
+		{ customProperties: { '--length-3': '20px' } },
+	);
 
-			if (resultParams === expectParams) {
-				console.log(`PASS: ${sourceParams} => ${resultParams}`);
-			} else {
-				throw new Error(`Expected: ${expectParams}\nReceived: ${resultParams}`);
-			}
+	test('customMedia', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = 'all and (--mq-a)';
+			const testExpect = 'all and (max-width: 30em),all and (max-height: 30em)';
+			const testResult = utils.transformStringWithCustomMedia(testSource, custom.customMedia);
 
-			/* Test Custom Properties */
-			const sourceValue = 'var(--length-1) var(--length-2) var(--length-3)';
-			const expectValue = '10px 15px 20px';
-			const resultValue = utils.transformStringWithCustomProperties(sourceValue, custom.customProperties);
+			return expect(testResult).toBe(testExpect);
+		});
+	});
 
-			if (resultValue === expectValue) {
-				console.log(`PASS: ${sourceValue} => ${resultValue}`);
-			} else {
-				throw new Error(`Expected: ${expectValue}\nReceived: ${resultValue}`);
-			}
+	test('customProperties', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = 'var(--length-1) var(--length-2) var(--length-3)';
+			const testExpect = '10px 15px 20px';
+			const testResult = utils.transformStringWithCustomProperties(testSource, custom.customProperties);
 
-			/* Test Custom Selectors */
-			const sourceSelector = ':--any-heading + p {}';
-			const expectSelector = 'h1 + p {},h2 + p {},h3 + p {},h4 + p {},h5 + p {},h6 + p {}';
-			const resultSelector = utils.transformStringWithCustomSelectors(sourceSelector, custom.customSelectors);
+			return expect(testResult).toBe(testExpect);
+		});
+	});
 
-			if (resultSelector === expectSelector) {
-				console.log(`PASS: ${sourceSelector} => ${resultSelector}`);
-			} else {
-				throw new Error(`Expected: ${expectSelector}\nReceived: ${resultSelector}`);
-			}
-		}
-	),
+	test('customSelectors', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = ':--any-heading + p {}';
+			const testExpect = 'h1 + p {},h2 + p {},h3 + p {},h4 + p {},h5 + p {},h6 + p {}';
+			const testResult = utils.transformStringWithCustomSelectors(testSource, custom.customSelectors);
 
-	/* Test Custom Media and Custom Properties from an Object */
-	() => Promise.resolve(
-		utils.readCustomFromObject({
-			customMedia: { '--mq-a': '(max-width: 30em), (max-height: 30em)' },
-			customProperties: { '--length-0': '5px' },
-			customSelectors: { ':--any-heading': 'h1, h2, h3, h4, h5, h6' }
-		})
-	).then(
-		custom => {
-			/* Test Custom Media */
-			const sourceParams = 'all and (--mq-a)';
-			const expectParams = 'all and (max-width: 30em),all and (max-height: 30em)';
-			const resultParams = utils.transformStringWithCustomMedia(sourceParams, custom.customMedia);
+			return expect(testResult).toBe(testExpect);
+		});
+	});
+})
 
-			if (resultParams === expectParams) {
-				console.log(`PASS: ${sourceParams} => ${resultParams}`);
-			} else {
-				throw new Error(`Expected: ${expectParams}\nReceived: ${resultParams}`);
-			}
+describe('transformStringWith* from an object', () => {
+	const testSourcesContent = Promise.resolve(utils.readCustomFromObject({
+		customMedia: { '--mq-a': '(max-width: 30em), (max-height: 30em)' },
+		customProperties: { '--length-0': '5px' },
+		customSelectors: { ':--any-heading': 'h1, h2, h3, h4, h5, h6' }
+	}));
 
-			/* Test Custom Properties */
-			const sourceValue = 'var(--length-0)';
-			const expectValue = '5px';
-			const resultValue = utils.transformStringWithCustomProperties(sourceValue, custom.customProperties);
+	test('customMedia', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = 'all and (--mq-a)';
+			const testExpect = 'all and (max-width: 30em),all and (max-height: 30em)';
+			const testResult = utils.transformStringWithCustomMedia(testSource, custom.customMedia);
 
-			if (resultValue === expectValue) {
-				console.log(`PASS: ${sourceValue} => ${resultValue}`);
-			} else {
-				throw new Error(`Expected: ${expectValue}\nReceived: ${resultValue}`);
-			}
+			return expect(testResult).toBe(testExpect);
+		});
+	});
 
-			/* Test Custom Selectors */
-			const sourceSelector = ':--any-heading + p {}';
-			const expectSelector = 'h1 + p {},h2 + p {},h3 + p {},h4 + p {},h5 + p {},h6 + p {}';
-			const resultSelector = utils.transformStringWithCustomSelectors(sourceSelector, custom.customSelectors);
+	test('customProperties', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = 'var(--length-0)';
+			const testExpect = '5px';
+			const testResult = utils.transformStringWithCustomProperties(testSource, custom.customProperties);
 
-			if (resultSelector === expectSelector) {
-				console.log(`PASS: ${sourceSelector} => ${resultSelector}`);
-			} else {
-				throw new Error(`Expected: ${expectSelector}\nReceived: ${resultSelector}`);
-			}
-		}
-	),
+			return expect(testResult).toBe(testExpect);
+		});
+	});
 
-	/* Test Custom Media and Custom Properties from a JSON file */
-	() => utils.readCustomFromJsonFile('./test/custom.json').then(
-		custom => {
-			/* Test Custom Media */
-			const sourceParams = 'all and (--mq-a)';
-			const expectParams = 'all and (max-width: 30em),all and (max-height: 30em)';
-			const resultParams = utils.transformStringWithCustomMedia(sourceParams, custom.customMedia);
+	test('customSelectors', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = ':--any-heading + p {}';
+			const testExpect = 'h1 + p {},h2 + p {},h3 + p {},h4 + p {},h5 + p {},h6 + p {}';
+			const testResult = utils.transformStringWithCustomSelectors(testSource, custom.customSelectors);
 
-			if (resultParams === expectParams) {
-				console.log(`PASS: ${sourceParams} => ${resultParams}`);
-			} else {
-				throw new Error(`Expected: ${expectParams}\nReceived: ${resultParams}`);
-			}
+			return expect(testResult).toBe(testExpect);
+		});
+	});
+})
 
-			/* Test Custom Properties */
-			const sourceValue = 'var(--length-4)';
-			const expectValue = '25px';
-			const resultValue = utils.transformStringWithCustomProperties(sourceValue, custom.customProperties);
+describe('transformStringWith* from a json file', () => {
+	const testSourcesContent = utils.readCustomFromJsonFile('./test/custom.json');
 
-			if (resultValue === expectValue) {
-				console.log(`PASS: ${sourceValue} => ${resultValue}`);
-			} else {
-				throw new Error(`Expected: ${expectValue}\nReceived: ${resultValue}`);
-			}
+	test('customMedia', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = 'all and (--mq-a)';
+			const testExpect = 'all and (max-width: 30em),all and (max-height: 30em)';
+			const testResult = utils.transformStringWithCustomMedia(testSource, custom.customMedia);
 
-			/* Test Custom Selectors */
-			const sourceSelector = ':--heading + p {}';
-			const expectSelector = 'h1 + p {},h2 + p {},h3 + p {}';
-			const resultSelector = utils.transformStringWithCustomSelectors(sourceSelector, custom.customSelectors);
+			return expect(testResult).toBe(testExpect);
+		});
+	});
 
-			if (resultSelector === expectSelector) {
-				console.log(`PASS: ${sourceSelector} => ${resultSelector}`);
-			} else {
-				throw new Error(`Expected: ${expectSelector}\nReceived: ${resultSelector}`);
-			}
-		}
-	),
+	test('customProperties', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = 'var(--length-4)';
+			const testExpect = '25px';
+			const testResult = utils.transformStringWithCustomProperties(testSource, custom.customProperties);
 
-	/* Test Custom Media and Custom Properties from a PostCSS-processed string */
-	() => postcss([() => {}]).process(
-		`@custom-media --mq-a (max-width: 30em), (max-height: 30em);
-		:root { --length-5: 10px }`,
-		{ from: '<stdin>' }
-	).then(
-		({ root }) => utils.readCustomFromRoot(root)
-	).then(
-		custom => {
-			/* Test Custom Media */
-			const sourceParams = 'all and (--mq-a)';
-			const expectParams = 'all and (max-width: 30em),all and (max-height: 30em)';
-			const resultParams = utils.transformStringWithCustomMedia(sourceParams, custom.customMedia);
+			return expect(testResult).toBe(testExpect);
+		});
+	});
 
-			if (resultParams === expectParams) {
-				console.log(`PASS: ${sourceParams} => ${resultParams}`);
-			} else {
-				throw new Error(`Expected: ${expectParams}\nReceived: ${resultParams}`);
-			}
+	test('customSelectors', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = ':--heading + p {}';
+			const testExpect = 'h1 + p {},h2 + p {},h3 + p {}';
+			const testResult = utils.transformStringWithCustomSelectors(testSource, custom.customSelectors);
 
-			/* Test Custom Properties */
-			const sourceValue = 'var(--length-5)';
-			const expectValue = '10px';
-			const resultValue = utils.transformStringWithCustomProperties(sourceValue, custom.customProperties);
+			return expect(testResult).toBe(testExpect);
+		});
+	});
+})
 
-			if (resultValue === expectValue) {
-				console.log(`PASS: ${sourceValue} => ${resultValue}`);
-			} else {
-				throw new Error(`Expected: ${expectValue}\nReceived: ${resultValue}`);
-			}
-		}
-	),
+describe('transformStringWith* from a PostCSS-processed string', () => {
+	const testCustomCss = `
+		@custom-media --mq-a (max-width: 30em), (max-height: 30em);
+		@custom-selector :--any-heading h1, h2, h3, h4, h5, h6;
+		:root { --length-5: 10px }
+	`;
+	const testSourcesContent = postcss([() => {}])
+		.process(testCustomCss, { from: '<stdin>' })
+		.then(({ root }) => utils.readCustomFromRoot(root));
 
-	() => Promise.resolve(
-		utils.readCustomFromObject({
-			customMedia: { '--mq-a': '(max-width: 30em), (max-height: 30em)' },
-			customProperties: { '--length-0': '5px' },
-			customSelectors: { ':--heading': 'h1, h2, h3' }
-		})
-	).then(
-		custom => {
-			return Promise.all([
-				utils.writeCustom(custom, 'test/export.css'),
-				utils.writeCustom(custom, 'test/export.js'),
-				utils.writeCustom(custom, 'test/export.json'),
-				utils.writeCustom(custom, 'test/export.mjs')
-			]);
-		}
-	)
-].reduce(
-	(promise, test) => promise.then(test),
-	Promise.resolve()
-).catch(
-	error => {
-		console.error(error.message);
+	test('customMedia', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = 'all and (--mq-a)';
+			const testExpect = 'all and (max-width: 30em),all and (max-height: 30em)';
+			const testResult = utils.transformStringWithCustomMedia(testSource, custom.customMedia);
 
-		process.exit(1);
-	}
-);
+			return expect(testResult).toBe(testExpect);
+		});
+	});
+
+	test('customProperties', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = 'var(--length-5)';
+			const testExpect = '10px';
+			const testResult = utils.transformStringWithCustomProperties(testSource, custom.customProperties);
+
+			return expect(testResult).toBe(testExpect);
+		});
+	});
+
+	test('customSelectors', () => {
+		return testSourcesContent.then(custom => {
+			const testSource = ':--any-heading + p {}';
+			const testExpect = 'h1 + p {},h2 + p {},h3 + p {},h4 + p {},h5 + p {},h6 + p {}';
+			const testResult = utils.transformStringWithCustomSelectors(testSource, custom.customSelectors);
+
+			return expect(testResult).toBe(testExpect);
+		});
+	});
+})
+
+
+// describe('writeCustom exports different formats', () => {
+// 	const testSourcesContent = Promise.resolve(utils.readCustomFromObject({
+// 		customMedia: { '--mq-a': '(max-width: 30em), (max-height: 30em)' },
+// 		customProperties: { '--length-0': '5px' },
+// 		customSelectors: { ':--heading': 'h1, h2, h3' }
+// 	}));
+
+// 	test('css', () => {
+// 		return testSourcesContent.then(custom => {
+// 			const write = utils.writeCustom(custom, 'test/export.css')
+// 			const read = utils.readFile('test/export.css')
+// 			const testExpect = `
+// 				@custom-media --mq-a (max-width: 30em), (max-height: 30em);
+// 				@custom-selector :--heading h1, h2, h3;
+// 				:root { --length-0: 5px; }
+// 			`
+
+// 			// TODO: Fix tests failing sometimes because of Promises and fs? 🤷‍♂️
+// 			return Promise.all([write, read]).then(([,content]) => expect(content).toMatchCss(testExpect))
+// 		});
+// 	});
+
+// 	test('js', () => {
+// 		return testSourcesContent.then(custom => {
+// 			const write = utils.writeCustom(custom, 'test/export.js')
+// 			const read = utils.readFile('test/export.js')
+// 			const testExpect = `
+// 				@custom-media --mq-a (max-width: 30em), (max-height: 30em);
+// 				@custom-selector :--heading h1, h2, h3;
+// 				:root { --length-0: 5px; }
+// 			`
+
+// 			// TODO: Fix tests failing sometimes because of Promises and fs? 🤷‍♂️
+// 			return Promise.all([write, read]).then(([,content]) => expect(content).toMatchCss(testExpect))
+// 		});
+// 	});
+
+// 	test('json', () => {
+// 		return testSourcesContent.then(custom => {
+// 			const write = utils.writeCustom(custom, 'test/export.json')
+// 			const read = utils.readFile('test/export.json')
+// 			const testExpect = `
+// 				@custom-media --mq-a (max-width: 30em), (max-height: 30em);
+// 				@custom-selector :--heading h1, h2, h3;
+// 				:root { --length-0: 5px; }
+// 			`
+
+// 			// TODO: Fix tests failing sometimes because of Promises and fs? 🤷‍♂️
+// 			return Promise.all([write, read]).then(([,content]) => expect(content).toMatchCss(testExpect))
+// 		});
+// 	});
+
+// 	test('mjs', () => {
+// 		return testSourcesContent.then(custom => {
+// 			const write = utils.writeCustom(custom, 'test/export.mjs')
+// 			const read = utils.readFile('test/export.mjs')
+// 			const testExpect = `
+// 				@custom-media --mq-a (max-width: 30em), (max-height: 30em);
+// 				@custom-selector :--heading h1, h2, h3;
+// 				:root { --length-0: 5px; }
+// 			`
+
+// 			// TODO: Fix tests failing sometimes because of Promises and fs? 🤷‍♂️
+// 			return Promise.all([write, read]).then(([,content]) => expect(content).toMatchCss(testExpect))
+// 		});
+// 	});
+// })

@@ -20,7 +20,7 @@
     "test": "npm run test:js && npm run test:node",
     "test:js": "eslint src/*.js src/lib/*.js --cache --ignore-path .gitignore --quiet",
     "pretest:node": "npm run build",
-    "test:node": "node test"
+    "test:node": "jest --watchAll"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -37,13 +37,19 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-config-dev": "2.0.0",
+    "eslint-plugin-jest": "^22.6.4",
+    "jest": "^24.8.0",
     "rollup": "^1.11.3",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-terser": "^4.0.4"
   },
   "eslintConfig": {
     "extends": "dev",
-    "parser": "babel-eslint"
+    "plugins": ["jest"],
+    "parser": "babel-eslint",
+    "env": {
+      "jest/globals": true
+    }
   },
   "keywords": [
     "postcss",

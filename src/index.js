@@ -1,3 +1,5 @@
+import { readFile, readJSON, writeFile} from './lib/fs-utils';
+
 import readCustom from './lib/read-custom';
 import readCustomFromCjsFile from './lib/read-custom-from-cjs-file';
 import readCustomFromCssFile from './lib/read-custom-from-css-file';
@@ -20,6 +22,9 @@ import writeCustomToEsmFile from './lib/write-custom-to-esm-file';
 import writeCustomToJsonFile from './lib/write-custom-to-json-file';
 
 export {
+	readFile,
+	readJSON,
+	writeFile,
 	readCustom,
 	readCustomFromCjsFile,
 	readCustomFromCssFile,
