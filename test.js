@@ -6,11 +6,7 @@ const utils = require('.');
 	() => utils.readCustom(
 		'./test/custom.css',
 		'./test/custom.js',
-		{
-			customProperties: {
-				'--length-3': '20px'
-			}
-		}
+		{ customProperties: { '--length-3': '20px' } }
 	).then(
 		custom => {
 			/* Test Custom Media */
@@ -116,11 +112,26 @@ const utils = require('.');
 			} else {
 				throw new Error(`Expected: ${expectValue}\nReceived: ${resultValue}`);
 			}
+
+			/* Test Custom Selectors */
+			const sourceSelector = ':--heading + p {}';
+			const expectSelector = 'h1 + p {},h2 + p {},h3 + p {}';
+			const resultSelector = utils.transformStringWithCustomSelectors(sourceSelector, custom.customSelectors);
+
+			if (resultSelector === expectSelector) {
+				console.log(`PASS: ${sourceSelector} => ${resultSelector}`);
+			} else {
+				throw new Error(`Expected: ${expectSelector}\nReceived: ${resultSelector}`);
+			}
 		}
 	),
 
 	/* Test Custom Media and Custom Properties from a PostCSS-processed string */
-	() => postcss([() => {}]).process('@custom-media --mq-a (max-width: 30em), (max-height: 30em); :root { --length-5: 10px }', { from: '<stdin>' }).then(
+	() => postcss([() => {}]).process(
+		`@custom-media --mq-a (max-width: 30em), (max-height: 30em);
+		:root { --length-5: 10px }`,
+		{ from: '<stdin>' }
+	).then(
 		({ root }) => utils.readCustomFromRoot(root)
 	).then(
 		custom => {
