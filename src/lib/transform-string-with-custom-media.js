@@ -11,7 +11,6 @@ import transformNodeWithCustomMedia from './transform-node-with-custom-media';
 
 export default function transformStringWithCustomMedia(string, customMedia) {
 	const mediaAST = parseCustomMediaFromString(string);
-
 	const modifiedString = String(transformNodeWithCustomMedia(mediaAST, customMedia));
 
 	return modifiedString;

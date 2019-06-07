@@ -45,9 +45,7 @@ class MediaQueryList {
 	}
 
 	invert() {
-		this.nodes.forEach(node => {
-			node.invert();
-		})
+		this.nodes.forEach(node => node.invert());
 
 		return this;
 	}
@@ -64,16 +62,25 @@ class MediaQueryList {
 class MediaQuery {
 	constructor(string) {
 		const [, before, media, after ] = string.match(spaceWrapRegExp);
-		const [, modifier = '', afterModifier = ' ', type = '', beforeAnd = '', and = '', beforeExpression = '', expression1 = '', expression2 = ''] = media.match(mediaRegExp) || [];
-		const raws = { before, after, afterModifier, originalModifier: modifier || '', beforeAnd, and, beforeExpression };
+		const [,
+			modifier = '',
+			afterModifier = ' ',
+			type = '',
+			beforeAnd = '',
+			and = '',
+			beforeExpression = '',
+			expression1 = '',
+			expression2 = ''
+		] = media.match(mediaRegExp) || [];
+
+		const raws = {
+			before, after, afterModifier,
+			originalModifier: modifier || '',
+			beforeAnd, and, beforeExpression,
+		};
 		const nodes = parse(expression1 || expression2, true);
 
-		Object.assign(this, {
-			modifier,
-			type,
-			raws,
-			nodes
-		});
+		Object.assign(this, { modifier, type, raws, nodes });
 	}
 
 	clone(overrides) {
@@ -93,7 +100,17 @@ class MediaQuery {
 	toString() {
 		const { raws } = this;
 
-		return `${raws.before}${this.modifier}${this.modifier ? `${raws.afterModifier}` : ''}${this.type}${raws.beforeAnd}${raws.and}${raws.beforeExpression}${this.nodes.join('')}${this.raws.after}`;
+		return (
+			raws.before +
+			this.modifier +
+			(this.modifier ? raws.afterModifier : '') +
+			this.type +
+			raws.beforeAnd +
+			raws.and +
+			raws.beforeExpression +
+			this.nodes.join('') +
+			this.raws.after
+		);
 	}
 }
 
