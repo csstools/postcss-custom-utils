@@ -22,7 +22,7 @@ function transformSelector (selector, customSelectors) {
 	for (const index in selector.nodes) {
 		const { value, nodes } = selector.nodes[index];
 
-		if (value in customSelectors) {
+		if (value in Object(customSelectors)) {
 			for (const replacementSelector of customSelectors[value].nodes) {
 				const selectorClone = selector.clone();
 
