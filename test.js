@@ -128,9 +128,9 @@ describe('transformStringWith* from a PostCSS-processed string', () => {
 	});
 
 	test.each(testSources)('%s', (description, testParams) => {
-		const { source: testSource, expect: testExpect, result: resultUtil } = testParams
+		const { source: testSource, expect: testExpect, result: resultUtil } = testParams;
 
-		const testResult = resultUtil(testSource, testContent[description])
+		const testResult = resultUtil(testSource, testContent[description]);
 
 		return expect(testResult).toBe(testExpect);
 	});
@@ -139,32 +139,30 @@ describe('transformStringWith* from a PostCSS-processed string', () => {
 /* FAILING TESTS */
 /* ========================================================================== */
 
-// describe('writeCustom exports different formats', () => {
-// 	const testContent = Promise.resolve(utils.readCustomFromObject({
-// 		customMedia: { '--mq-a': '(max-width: 30em), (max-height: 30em)' },
-// 		customProperties: { '--length-0': '5px' },
-// 		customSelectors: { ':--heading': 'h1, h2, h3' }
-// 	}))
-// 	const testSources = [
-// 		['css'],
-// 		['js'],
-// 		['json'],
-// 		['mjs'],
-// 	]
+describe('writeCustom exports different formats', () => {
+	const testContent = utils.readCustomFromObject({
+		customMedia: { '--mq-a': '(max-width: 30em), (max-height: 30em)' },
+		customProperties: { '--length-0': '5px' },
+		customSelectors: { ':--heading': 'h1, h2, h3' }
+	});
 
-// 	// TODO: Remove existing dest files first?
-// 	// TODO: Keep in mind it will cause tests to run again when using --watch or --watchAll
-// 	test.each(testSources)('%s', (extension) => {
-// 		return testContent.then(content => {
-// 			const path = `test/export.${extension}`
-// 			const write = Promise.resolve(utils.writeCustom(content, path))
+	const testSources = Object.entries({
+		'css': fs.readFileSync('test/export.css', 'utf8'),
+		'js': fs.readFileSync('test/export.js', 'utf8'),
+		'json': fs.readFileSync('test/export.json', 'utf8'),
+		'mjs': fs.readFileSync('test/export.mjs', 'utf8')
+	});
 
-// 			// TODO: Fix tests failing sometimes because of Promises and fs? 🤷‍♂️
-// 			return Promise.all([ write ]).then((testContent) => true)
-// 			return Promise.all([ write ]).then((testContent) => false)
-// 		})
-// 	})
-// })
+	test.each(testSources)('%s', (extension, testExpect) => {
+		const path = `test/export.${extension}`;
+
+		utils.writeCustom.sync(testContent, path);
+
+		const fileContent = fs.readFileSync(path, 'utf8');
+
+		return expect(fileContent).toBe(testExpect);
+	});
+});
 
 // describe('readCustom imports different formats', () => {
 // 	const basePath = 'test/export'
