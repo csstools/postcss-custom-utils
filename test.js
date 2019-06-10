@@ -217,3 +217,8 @@ describe('readCustom imports different formats', () => {
 		})
 	})
 })
+
+
+describe('transformRootWith*', () => {
+	test.todo('add tests for all of these methods')
+})
