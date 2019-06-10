@@ -20,7 +20,7 @@
     "test": "npm run test:js && npm run test:node",
     "test:js": "eslint src/*.js src/lib/*.js --cache --ignore-path .gitignore --quiet",
     "pretest:node": "npm run build",
-    "test:node": "jest --watchAll"
+    "test:node": "jest"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -45,7 +45,9 @@
   },
   "eslintConfig": {
     "extends": "dev",
-    "plugins": ["jest"],
+    "plugins": [
+      "jest"
+    ],
     "parser": "babel-eslint",
     "env": {
       "jest/globals": true
