@@ -5,6 +5,5 @@ package-lock.json
 !.editorconfig
 !.gitignore
 !.travis.yml
-/index.js*
-/index.mjs*
+/index.*
 /test/export.*

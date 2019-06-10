@@ -4,9 +4,9 @@
   "description": "Read, write, and transform Custom Media and Custom Properties from almost anywhere",
   "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "license": "CC0-1.0",
-  "repository": "jonathantneal/postcss-custom-utils",
-  "homepage": "https://github.com/jonathantneal/postcss-custom-utils#readme",
-  "bugs": "https://github.com/jonathantneal/postcss-custom-utils/issues",
+  "repository": "csstools/postcss-custom-utils",
+  "homepage": "https://github.com/csstools/postcss-custom-utils#readme",
+  "bugs": "https://github.com/csstools/postcss-custom-utils/issues",
   "main": "index.js",
   "module": "index.js",
   "files": [
@@ -18,7 +18,7 @@
   "scripts": {
     "build": "rollup --config --silent",
     "test": "npm run test:js && npm run test:node",
-    "test:js": "eslint src/*.js src/lib/*.js --cache --ignore-path .gitignore --quiet",
+    "test:js": "eslint src/{*,**/*}.js --cache --ignore-path .gitignore --quiet",
     "pretest:node": "npm run build",
     "test:node": "node test"
   },
@@ -26,34 +26,34 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "postcss": "^7.0.16",
+    "postcss": "^7.0.17",
     "postcss-selector-parser": "^6.0.2",
     "postcss-values-parser": "^3.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
+    "@babel/core": "^7.4.5",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
-    "rollup": "^1.12.1",
+    "rollup": "^1.14.6",
     "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-terser": "^4.0.4"
+    "rollup-plugin-terser": "^5.0.0"
   },
   "eslintConfig": {
-    "root": true,
     "env": {
       "browser": true,
       "es6": true,
       "node": true
     },
+    "extends": "eslint:recommended",
     "parser": "babel-eslint",
     "parserOptions": {
       "ecmaVersion": 2018,
       "impliedStrict": true,
       "sourceType": "module"
     },
-    "extends": "eslint:recommended"
+    "root": true
   },
   "keywords": [
     "postcss",
