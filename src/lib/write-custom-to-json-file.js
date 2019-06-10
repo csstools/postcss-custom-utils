@@ -1,4 +1,4 @@
-import { writeFile } from './fs-utils';
+import { writeFile, writeFileSync } from './fs-utils';
 
 /**
  * Write Custom Media and Custom Properties to a ECMAScript Module file
@@ -6,7 +6,19 @@ import { writeFile } from './fs-utils';
  * @param {Object} custom - The object of Custom Media and Custom Properties written to the file.
  */
 
-export default function writeCustomPropertiesToJsonFile (to, custom) {
+export function async (to, custom) {
+	const json = getJsonFromCustom(custom);
+
+	return writeFile(to, json);
+}
+
+export function sync (to, custom) {
+	const json = getJsonFromCustom(custom);
+
+	return writeFileSync(to, json);
+}
+
+function getJsonFromCustom (custom) {
 	const jsonObject = {};
 
 	if (custom.customMedia) {
@@ -22,7 +34,8 @@ export default function writeCustomPropertiesToJsonFile (to, custom) {
 	}
 
 	const jsonContent = JSON.stringify(jsonObject, null, '  ');
+
 	const json = `${jsonContent}\n`;
 
-	return writeFile(to, json);
+	return json;
 }

@@ -1,4 +1,4 @@
-import { writeFile } from './fs-utils';
+import { writeFile, writeFileSync } from './fs-utils';
 
 /**
  * Write Custom Media and Custom Properties to a CSS file
@@ -6,22 +6,37 @@ import { writeFile } from './fs-utils';
  * @param {Object} custom - The object of Custom Media and Custom Properties written to the file.
  */
 
-export default function writeCustomToCssFile (to, custom) {
+export function async (to, custom) {
+	const css = getCssFromCustom(custom);
+
+	return writeFile(to, css);
+}
+
+export function sync (to, custom) {
+	const css = getCssFromCustom(custom);
+
+	return writeFileSync(to, css);
+}
+
+function getCssFromCustom (custom) {
 	const cssMediaContent = Object.keys(Object(custom.customMedia)).reduce((cssLines, name) => {
 		cssLines.push(`@custom-media ${name} ${custom.customMedia[name]};`);
 
 		return cssLines;
 	}, []).join('\n');
+
 	const cssPropertiesContent = Object.keys(Object(custom.customProperties)).reduce((cssLines, name) => {
 		cssLines.push(`\t${name}: ${custom.customProperties[name]};`);
 
 		return cssLines;
 	}, []).join('\n');
+
 	const cssSelectorsContent = Object.keys(Object(custom.customSelectors)).reduce((cssLines, name) => {
 		cssLines.push(`@custom-selector ${name} ${custom.customSelectors[name]};`);
 
 		return cssLines;
 	}, []).join('\n');
+
 	const css = `${cssMediaContent
 		? `${cssMediaContent}\n${cssSelectorsContent || cssPropertiesContent ? '\n' : ''}`
 	: ''}${cssSelectorsContent
@@ -30,5 +45,5 @@ export default function writeCustomToCssFile (to, custom) {
 		? `:root {\n${cssPropertiesContent}\n}\n`
 	: ''}`;
 
-	return writeFile(to, css);
+	return css;
 }

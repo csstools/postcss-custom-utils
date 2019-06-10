@@ -12,20 +12,32 @@ export function readFile (from) {
 	});
 }
 
-export function readJSON (from) {
+export function readFileSync (from) {
+	return fs.readFileSync(from, 'utf8');
+}
+
+export function readJson (from) {
 	return readFile(from).then(
 		data => JSON.parse(data)
 	);
 }
 
+export function readJsonSync (from) {
+	return JSON.parse(
+		fs.readFileSync(from, 'utf8')
+	);
+}
+
 export function writeFile (to, data) {
-	return new Promise((resolve, reject) => {
-		fs.writeFile(to, data, error => {
-			if (error) {
-				reject(error);
-			} else {
-				resolve();
-			}
-		});
-	});
+	return new Promise(
+		(resolve, reject) => fs.writeFile(
+			to,
+			data,
+			error => error ? reject(error) : resolve()
+		)
+	);
+}
+
+export function writeFileSync (to, data) {
+	return fs.writeFileSync(to, data);
 }

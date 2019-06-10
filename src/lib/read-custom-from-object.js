@@ -3,12 +3,12 @@ import parseCustomMediaFromString from './parse-custom-media-from-string';
 import parseSelector from './parse-selector';
 
 /**
- * Return Custom Media and Custom Properties from an Object
+ * Return Customs from an Object
  * @param {Object} from - The Object being read.
- * @return {Object} The Custom Media and Custom Properties read from the Object.
+ * @return {Object} The Customs read from the Object.
  */
 
-export default function readCustomPropertiesFromObject (object) {
+export default function readCustomFromObject (object) {
 	const customMedia = Object.assign(
 		{},
 		Object(object).customMedia,

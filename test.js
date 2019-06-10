@@ -1,9 +1,11 @@
+/* eslint no-console: 0 */
+
 const postcss = require('postcss');
 const utils = require('.');
 
 [
 	/* Test Custom Media and Custom Properties from various sources */
-	() => utils.readCustom(
+	() => utils.readCustom.async(
 		'./test/custom.css',
 		'./test/custom.js',
 		{
@@ -93,7 +95,7 @@ const utils = require('.');
 	),
 
 	/* Test Custom Media and Custom Properties from a JSON file */
-	() => utils.readCustomFromJsonFile('./test/custom.json').then(
+	() => utils.readCustomFromJsonFile.async('./test/custom.json').then(
 		custom => {
 			/* Test Custom Media */
 			const sourceParams = 'all and (--mq-a)';
@@ -157,10 +159,10 @@ const utils = require('.');
 	).then(
 		custom => {
 			return Promise.all([
-				utils.writeCustom(custom, 'test/export.css'),
-				utils.writeCustom(custom, 'test/export.js'),
-				utils.writeCustom(custom, 'test/export.json'),
-				utils.writeCustom(custom, 'test/export.mjs')
+				utils.writeCustom.async(custom, 'test/export.css'),
+				utils.writeCustom.async(custom, 'test/export.js'),
+				utils.writeCustom.async(custom, 'test/export.json'),
+				utils.writeCustom.async(custom, 'test/export.mjs')
 			]);
 		}
 	)

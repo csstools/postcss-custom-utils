@@ -1,4 +1,4 @@
-import { writeFile } from './fs-utils';
+import { writeFile, writeFileSync } from './fs-utils';
 
 /**
  * Write Custom Media and Custom Properties to a ECMAScript Module file
@@ -6,22 +6,37 @@ import { writeFile } from './fs-utils';
  * @param {Object} custom - The object of Custom Media and Properties written to the file.
  */
 
-export default function writeCustomToEsmFile (to, custom) {
+export function async (to, custom) {
+	const esm = getEsmFromCustom(custom);
+
+	return writeFile(to, esm);
+}
+
+export function sync (to, custom) {
+	const esm = getEsmFromCustom(custom);
+
+	return writeFileSync(to, esm);
+}
+
+function getEsmFromCustom (custom) {
 	const esmMediaContents = Object.keys(Object(custom.customMedia)).reduce((esmLines, name) => {
 		esmLines.push(`\t'${escapeForJS(name)}': '${escapeForJS(custom.customMedia[name])}'`);
 
 		return esmLines;
 	}, []).join(',\n');
+
 	const esmPropertiesContents = Object.keys(Object(custom.customProperties)).reduce((esmLines, name) => {
 		esmLines.push(`\t'${escapeForJS(name)}': '${escapeForJS(custom.customProperties[name])}'`);
 
 		return esmLines;
 	}, []).join(',\n');
+
 	const esmSelectorsContents = Object.keys(Object(custom.customSelectors)).reduce((esmLines, name) => {
 		esmLines.push(`\t'${escapeForJS(name)}': '${escapeForJS(custom.customSelectors[name])}'`);
 
 		return esmLines;
 	}, []).join(',\n');
+
 	const esm = `${esmMediaContents
 		? `export const customMedia = {\n${esmMediaContents}\n};\n${esmSelectorsContents || esmPropertiesContents ? '\n' : ''}`
 	: ''}${esmSelectorsContents
@@ -30,7 +45,7 @@ export default function writeCustomToEsmFile (to, custom) {
 		? `export const customProperties = {\n${esmPropertiesContents}\n};\n`
 	: ''}`;
 
-	return writeFile(to, esm);
+	return esm;
 }
 
 function escapeForJS (string) {
