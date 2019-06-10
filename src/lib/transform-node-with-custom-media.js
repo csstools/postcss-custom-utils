@@ -23,7 +23,7 @@ function transformMedia (media, customMedias) {
 		const { value, nodes } = media.nodes[index];
 		const key = value.replace(customPseudoRegExp, '$1');
 
-		if (key in customMedias) {
+		if (key in Object(customMedias)) {
 			for (const replacementMedia of customMedias[key].nodes) {
 				// use the first available modifier unless they cancel each other out
 				const modifier = media.modifier !== replacementMedia.modifier

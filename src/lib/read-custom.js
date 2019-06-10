@@ -82,7 +82,7 @@ export function async (...sources) {
 }
 
 export function sync (...sources) {
-	sources.map(source => {
+	return sources.map(source => {
 		if (source instanceof Function) {
 			return source();
 		}
@@ -108,15 +108,14 @@ export function sync (...sources) {
 		return { type, from };
 	}).reduce((custom, source) => {
 		const { type, from } = source;
-		const resolvedCustom = custom;
 
 		if (type === 'css') {
 			const { customMedia, customProperties, customSelectors } = readCustomFromCssFile.sync(from);
 
 			return {
-				customMedia: Object.assign(Object(resolvedCustom.customMedia), customMedia),
-				customProperties: Object.assign(Object(resolvedCustom.customProperties), customProperties),
-				customSelectors: Object.assign(Object(resolvedCustom.customSelectors), customSelectors)
+				customMedia: Object.assign(Object(custom.customMedia), customMedia),
+				customProperties: Object.assign(Object(custom.customProperties), customProperties),
+				customSelectors: Object.assign(Object(custom.customSelectors), customSelectors)
 			};
 		}
 
@@ -124,9 +123,9 @@ export function sync (...sources) {
 			const { customMedia, customProperties, customSelectors } = readCustomFromCjsFile.sync(from);
 
 			return {
-				customMedia: Object.assign(Object(resolvedCustom.customMedia), customMedia),
-				customProperties: Object.assign(Object(resolvedCustom.customProperties), customProperties),
-				customSelectors: Object.assign(Object(resolvedCustom.customSelectors), customSelectors)
+				customMedia: Object.assign(Object(custom.customMedia), customMedia),
+				customProperties: Object.assign(Object(custom.customProperties), customProperties),
+				customSelectors: Object.assign(Object(custom.customSelectors), customSelectors)
 			};
 		}
 
@@ -134,18 +133,18 @@ export function sync (...sources) {
 			const { customMedia, customProperties, customSelectors } = readCustomFromJsonFile.sync(from);
 
 			return {
-				customMedia: Object.assign(Object(resolvedCustom.customMedia), customMedia),
-				customProperties: Object.assign(Object(resolvedCustom.customProperties), customProperties),
-				customSelectors: Object.assign(Object(resolvedCustom.customSelectors), customSelectors)
+				customMedia: Object.assign(Object(custom.customMedia), customMedia),
+				customProperties: Object.assign(Object(custom.customProperties), customProperties),
+				customSelectors: Object.assign(Object(custom.customSelectors), customSelectors)
 			};
 		}
 
 		const resolvedObject = readCustomFromObject(source);
 
 		return {
-			customMedia: Object.assign(Object(resolvedCustom.customMedia), resolvedObject.customMedia),
-			customProperties: Object.assign(Object(resolvedCustom.customProperties), resolvedObject.customProperties),
-			customSelectors: Object.assign(Object(resolvedCustom.customSelectors), resolvedObject.customSelectors)
+			customMedia: Object.assign(Object(custom.customMedia), resolvedObject.customMedia),
+			customProperties: Object.assign(Object(custom.customProperties), resolvedObject.customProperties),
+			customSelectors: Object.assign(Object(custom.customSelectors), resolvedObject.customSelectors)
 		};
 	}, {});
 }
