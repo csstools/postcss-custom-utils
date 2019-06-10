@@ -8,7 +8,7 @@ import transformStringWithCustomMedia from './transform-string-with-custom-media
  * @return {Object} The Rule Node having been transformed.
  */
 
-export default function transformRuleWithCustomMedia(rule, customMedia, preserve) {
+export default function transformRuleWithCustomMedia (rule, customMedia, preserve) {
 	if (mediaAtRuleRegExp.test(rule.name) && customPseudoRegExp.test(rule.params)) {
 		const originalParams = rule.params;
 		const modifiedParams = transformStringWithCustomMedia(originalParams, customMedia);

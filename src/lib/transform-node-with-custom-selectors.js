@@ -1,5 +1,5 @@
 // return transformed selectors, replacing custom pseudo selectors with custom selectors
-export default function transformSelectorList(selectorList, customSelectors) {
+export default function transformSelectorList (selectorList, customSelectors) {
 	let index = selectorList.nodes.length - 1;
 
 	while (index >= 0) {
@@ -16,7 +16,7 @@ export default function transformSelectorList(selectorList, customSelectors) {
 }
 
 // return custom pseudo selectors replaced with custom selectors
-function transformSelector(selector, customSelectors) {
+function transformSelector (selector, customSelectors) {
 	const transpiledSelectors = [];
 
 	for (const index in selector.nodes) {

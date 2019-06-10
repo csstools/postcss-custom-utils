@@ -8,7 +8,7 @@ import transformStringWithCustomSelectors from './transform-string-with-custom-s
  * @return {Object} The root node having been walked and transformed.
  */
 
-export default function transformRootWithCustomSelectors(root, customSelectors, preserve) {
+export default function transformRootWithCustomSelectors (root, customSelectors, preserve) {
 	root.walkRules(customPseudoRegExp, rule => {
 		const modifiedSelector = transformStringWithCustomSelectors(rule.selector);
 

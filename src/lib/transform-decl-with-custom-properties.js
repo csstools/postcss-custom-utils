@@ -8,7 +8,7 @@ import transformStringWithCustomProperties from './transform-string-with-custom-
  * @return {Object} The Declaration Node having been transformed.
  */
 
-export default function transformDeclWithCustomProperties(decl, customProperties, preserve) {
+export default function transformDeclWithCustomProperties (decl, customProperties, preserve) {
 	if (isTransformableDecl(decl)) {
 		const originalValue = decl.value;
 		const modifiedValue = transformStringWithCustomProperties(originalValue, customProperties);
@@ -27,7 +27,7 @@ export default function transformDeclWithCustomProperties(decl, customProperties
 }
 
 // whether the declaration should be potentially transformed
-function isTransformableDecl(decl) {
+function isTransformableDecl (decl) {
 	return !customPropertyRegExp.test(decl.prop) && customPropertiesRegExp.test(decl.value);
 }
 

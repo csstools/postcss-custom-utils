@@ -9,7 +9,7 @@ import selectorParser from './parse-selector';
  * @return {Object} The object of Custom Properties read from the CSS root.
  */
 
-export default function readCustomPropertiesFromRoot(root, preserve) {
+export default function readCustomPropertiesFromRoot (root, preserve) {
 	// initialize custom objects
 	const customPropertiesFromHtmlElement = {};
 	const customPropertiesFromRootPsuedo = {};

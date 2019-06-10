@@ -8,7 +8,7 @@ import transformNodeWithCustomProperties from './transform-node-with-custom-prop
  * @return {String} The value having been transformed.
  */
 
-export default function transformValueWithCustomProperties(string, customProperties) {
+export default function transformValueWithCustomProperties (string, customProperties) {
 	const valueAST = valueParser(string);
 	const modifiedString = String(transformNodeWithCustomProperties(valueAST, customProperties));
 

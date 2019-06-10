@@ -6,7 +6,7 @@ import readCustomFromObject from './read-custom-from-object';
  * @return {Object} The Custom Media and Custom Properties read from the file.
  */
 
-export default async function readCustomFromCjsFile(from) {
+export default async function readCustomFromCjsFile (from) {
 	const object = await import(from);
 
 	return readCustomFromObject(object);

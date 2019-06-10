@@ -6,7 +6,7 @@ import { writeFile } from './fs-utils';
  * @param {Object} custom - The object of Custom Media and Custom Properties written to the file.
  */
 
-export default function writeCustomPropertiesToJsonFile(to, custom) {
+export default function writeCustomPropertiesToJsonFile (to, custom) {
 	const jsonObject = {};
 
 	if (custom.customMedia) {

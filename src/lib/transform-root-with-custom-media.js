@@ -8,7 +8,7 @@ import transformRuleWithCustomMedia from './transform-rule-with-custom-media';
  * @return {Object} The root node having been walked and transformed.
  */
 
-export default function transformRootWithCustomMedia(root, customMedia, preserve) {
+export default function transformRootWithCustomMedia (root, customMedia, preserve) {
 	root.walkAtRules(rule => {
 		transformRuleWithCustomMedia(rule, customMedia, preserve);
 	});

@@ -10,7 +10,7 @@ import readCustomFromObject from './read-custom-from-object';
  * @return {Object} The Custom Media and Custom Properties read from the sources.
  */
 
-export default function readCustom(...sources) {
+export default function readCustom (...sources) {
 	return sources.map(source => {
 		if (source instanceof Promise) {
 			return source;

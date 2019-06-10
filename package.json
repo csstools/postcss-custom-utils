@@ -2,19 +2,26 @@
   "name": "postcss-custom-utils",
   "version": "1.0.0",
   "description": "Read, write, and transform Custom Media and Custom Properties from almost anywhere",
-  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
-  "license": "CC0-1.0",
-  "repository": "jonathantneal/postcss-custom-utils",
+  "keywords": [
+    "css",
+    "javascript",
+    "js",
+    "postcss",
+    "postcss-plugin"
+  ],
   "homepage": "https://github.com/jonathantneal/postcss-custom-utils#readme",
   "bugs": "https://github.com/jonathantneal/postcss-custom-utils/issues",
-  "main": "index.js",
-  "module": "index.js",
+  "repository": "jonathantneal/postcss-custom-utils",
+  "license": "CC0-1.0",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
   "files": [
     "index.js",
     "index.js.map",
     "index.mjs",
     "index.mjs.map"
   ],
+  "main": "index.js",
+  "module": "index.js",
   "scripts": {
     "build": "rollup --config --silent",
     "test": "npm run test:js && npm run test:node",
@@ -22,8 +29,24 @@
     "pretest:node": "npm run build",
     "test:node": "jest"
   },
-  "engines": {
-    "node": ">=8.0.0"
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true,
+      "node": true,
+      "jest/globals": true
+    },
+    "extends": "eslint:recommended",
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "impliedStrict": true,
+      "sourceType": "module"
+    },
+    "plugins": [
+      "jest"
+    ],
+    "root": true
   },
   "dependencies": {
     "postcss": "^7.0.16",
@@ -39,25 +62,11 @@
     "eslint-config-dev": "2.0.0",
     "eslint-plugin-jest": "^22.6.4",
     "jest": "^24.8.0",
-    "rollup": "^1.11.3",
+    "rollup": "^1.12.1",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-terser": "^4.0.4"
   },
-  "eslintConfig": {
-    "extends": "dev",
-    "plugins": [
-      "jest"
-    ],
-    "parser": "babel-eslint",
-    "env": {
-      "jest/globals": true
-    }
-  },
-  "keywords": [
-    "postcss",
-    "css",
-    "postcss-plugin",
-    "javascript",
-    "js"
-  ]
+  "engines": {
+    "node": ">=8.0.0"
+  }
 }

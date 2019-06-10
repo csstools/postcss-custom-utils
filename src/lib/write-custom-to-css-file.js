@@ -6,7 +6,7 @@ import { writeFile } from './fs-utils';
  * @param {Object} custom - The object of Custom Media and Custom Properties written to the file.
  */
 
-export default function writeCustomToCssFile(to, custom) {
+export default function writeCustomToCssFile (to, custom) {
 	const cssMediaContent = Object.keys(Object(custom.customMedia)).reduce((cssLines, name) => {
 		cssLines.push(`@custom-media ${name} ${custom.customMedia[name]};`);
 

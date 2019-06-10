@@ -8,7 +8,7 @@ import parseSelector from './parse-selector';
  * @return {Object} The Custom Media and Custom Properties read from the Object.
  */
 
-export default function readCustomPropertiesFromObject(object) {
+export default function readCustomPropertiesFromObject (object) {
 	const customMedia = Object.assign(
 		{},
 		Object(object).customMedia,

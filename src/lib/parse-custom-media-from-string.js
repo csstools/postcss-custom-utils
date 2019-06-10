@@ -1,4 +1,4 @@
-function parse(string, splitByAnd) {
+function parse (string, splitByAnd) {
 	const array = [];
 	let buffer = '';
 	let split = false;
@@ -40,7 +40,7 @@ function parse(string, splitByAnd) {
 }
 
 class MediaQueryList {
-	constructor(string) {
+	constructor (string) {
 		this.nodes = parse(string);
 	}
 
@@ -60,7 +60,7 @@ class MediaQueryList {
 }
 
 class MediaQuery {
-	constructor(string) {
+	constructor (string) {
 		const [, before, media, after ] = string.match(spaceWrapRegExp);
 		const [,
 			modifier = '',
@@ -83,7 +83,7 @@ class MediaQuery {
 		Object.assign(this, { modifier, type, raws, nodes });
 	}
 
-	clone(overrides) {
+	clone (overrides) {
 		const instance = new MediaQuery(String(this));
 
 		Object.assign(instance, overrides);
@@ -115,14 +115,14 @@ class MediaQuery {
 }
 
 class MediaExpression {
-	constructor(string) {
+	constructor (string) {
 		const [, value, after = '', and = '', afterAnd = '' ] = string.match(andRegExp) || [null, string];
 		const raws = { after, and, afterAnd };
 
 		Object.assign(this, { value, raws });
 	}
 
-	clone(overrides) {
+	clone (overrides) {
 		const instance = new MediaExpression(String(this));
 
 		Object.assign(instance, overrides);
