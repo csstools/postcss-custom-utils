@@ -147,10 +147,10 @@ describe('writeCustom exports different formats', () => {
 	});
 
 	const testSources = Object.entries({
-		'css': fs.readFileSync('test/export.css', 'utf8'),
-		'js': fs.readFileSync('test/export.js', 'utf8'),
-		'json': fs.readFileSync('test/export.json', 'utf8'),
-		'mjs': fs.readFileSync('test/export.mjs', 'utf8')
+		css: fs.readFileSync('test/export.css', 'utf8'),
+		js: fs.readFileSync('test/export.js', 'utf8'),
+		json: fs.readFileSync('test/export.json', 'utf8'),
+		mjs: fs.readFileSync('test/export.mjs', 'utf8')
 	});
 
 	test.each(testSources)('%s', (extension, testExpect) => {
@@ -164,47 +164,31 @@ describe('writeCustom exports different formats', () => {
 	});
 });
 
-// describe('readCustom imports different formats', () => {
-// 	const basePath = 'test/export'
-// 	const testContent = Promise.resolve(utils.readCustomFromObject({
-// 		customMedia: { '--mq-a': '(max-width: 30em), (max-height: 30em)' },
-// 		customProperties: { '--length-0': '5px' },
-// 		customSelectors: { ':--heading': 'h1, h2, h3' }
-// 	}))
-// 	const testSources = Object.entries({
-// 		css: `
-// 			@custom-media --mq-a (max-width: 30em), (max-height: 30em);
-// 			@custom-selector :--heading h1, h2, h3;
-// 			:root { --length-0: 5px; }
-// 		`,
-// 		js: `module.exports = {
-// 			customMedia: { '--mq-a': '(max-width: 30em), (max-height: 30em)' },
-// 			customSelectors: { ':--heading': 'h1, h2, h3' },
-// 			customProperties: { '--length-0': '5px' }
-// 		};`,
-// 		json: `{
-// 			"custom-media": { "--mq-a": "(max-width: 30em), (max-height: 30em)" },
-// 			"custom-properties": { "--length-0": "5px" },
-// 			"custom-selectors": { ":--heading": "h1, h2, h3" }
-// 		}`,
-// 		mjs: `
-// 			export const customMedia = { '--mq-a': '(max-width: 30em), (max-height: 30em)' };
-// 			export const customSelectors = { ':--heading': 'h1, h2, h3' };
-// 			export const customProperties = { '--length-0': '5px' };
-// 		`,
-// 	})
+describe('readCustom imports different formats', () => {
+	const testContent = utils.readCustomFromObject({
+		customMedia: { '--mq-a': '(max-width: 30em), (max-height: 30em)' },
+		customProperties: { '--length-0': '5px' },
+		customSelectors: { ':--heading': 'h1, h2, h3' }
+	});
 
-// 	// TODO: Fix tests failing sometimes because of Promises and fs? 🤷‍♂️
-// 	test.each(testSources)('%s', (description, testExpect) => {
-// 		const path = `${basePath}.${description}`
+	const testSources = Object.entries({
+		css: fs.readFileSync('test/export.css', 'utf8'),
+		js: fs.readFileSync('test/export.js', 'utf8'),
+		json: fs.readFileSync('test/export.json', 'utf8'),
+		mjs: fs.readFileSync('test/export.mjs', 'utf8'),
+	});
 
-// 		utils.writeCustom.sync(testContent, path);
+	// TODO: Fix tests failing sometimes because of Promises and fs? 🤷‍♂️
+	test.each(testSources)('%s', (extension, testExpect) => {
+		const path = `test/export.${extension}`
 
-// 		const fileContent = fs.readFileSync(path, 'utf8');
+		utils.writeCustom.sync(testContent, path);
 
-// 		return expect(fileContent).toBe(testExpect);
-// 	})
-// })
+		const fileContent = fs.readFileSync(path, 'utf8');
+
+		return expect(fileContent).toBe(testExpect);
+	})
+})
 
 // describe('transformRootWith*', () => {
 // 	test.todo('add tests for all of these methods')
