@@ -100,44 +100,44 @@ describe('transformStringWith* from a json file', () => {
 	})
 });
 
+describe('transformStringWith* from a PostCSS-processed string', () => {
+	const testCustomCss = `
+		@custom-media --mq-a (max-width: 30em), (max-height: 30em);
+		@custom-selector :--any-heading h1, h2, h3, h4, h5, h6;
+		:root { --length-5: 10px; }`;
+	const testContent = utils.readCustomFromRoot(
+		postcss.parse(testCustomCss, { from: 'noop.css' })
+	);
+
+	const testSources = Object.entries({
+		customMedia: {
+			source: 'all and (--mq-a)',
+			expect: 'all and (max-width: 30em),all and (max-height: 30em)',
+			result: utils.transformStringWithCustomMedia,
+		},
+		customProperties: {
+			source: 'var(--length-5)',
+			expect: '10px',
+			result: utils.transformStringWithCustomProperties,
+		},
+		customSelectors: {
+			source: ':--any-heading + p {}',
+			expect: 'h1 + p {},h2 + p {},h3 + p {},h4 + p {},h5 + p {},h6 + p {}',
+			result: utils.transformStringWithCustomSelectors,
+		},
+	});
+
+	test.each(testSources)('%s', (description, testParams) => {
+		const { source: testSource, expect: testExpect, result: resultUtil } = testParams
+
+		const testResult = resultUtil(testSource, testContent[description])
+
+		return expect(testResult).toBe(testExpect);
+	});
+});
+
 /* FAILING TESTS */
 /* ========================================================================== */
-
-// describe('transformStringWith* from a PostCSS-processed string', () => {
-// 	const testCustomCss = `
-// 		@custom-media --mq-a (max-width: 30em), (max-height: 30em);
-// 		@custom-selector :--any-heading h1, h2, h3, h4, h5, h6;
-// 		:root { --length-5: 10px; }`
-// 	const testContent = postcss([() => {}])
-// 		.process(testCustomCss, { from: '<stdin>' })
-// 		.then(({ root }) => utils.readCustomFromRoot(root))
-// 	const testSources = Object.entries({
-// 		customMedia: {
-// 			source: 'all and (--mq-a)',
-// 			expect: 'all and (max-width: 30em),all and (max-height: 30em)',
-// 			result: utils.transformStringWithCustomMedia,
-// 		},
-// 		customProperties: {
-// 			source: 'var(--length-5)',
-// 			expect: '10px',
-// 			result: utils.transformStringWithCustomProperties,
-// 		},
-// 		customSelectors: {
-// 			source: ':--any-heading + p {}',
-// 			expect: 'h1 + p {},h2 + p {},h3 + p {},h4 + p {},h5 + p {},h6 + p {}',
-// 			result: utils.transformStringWithCustomSelectors,
-// 		},
-// 	})
-
-// 	test.each(testSources)('%s', (description, testParams) => {
-// 		const { source: testSource, expect: testExpect, result: resultUtil } = testParams
-
-// 		const testResult = resultUtil(testSource, testContent[description])
-
-// 		return expect(testResult).toBe(testExpect);
-// 	})
-// })
-
 
 // describe('writeCustom exports different formats', () => {
 // 	const testContent = Promise.resolve(utils.readCustomFromObject({
