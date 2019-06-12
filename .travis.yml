@@ -3,15 +3,14 @@
 language: node_js
 
 os:
-  - windows
   - linux
   - osx
+  - windows
 
 node_js:
-  - node
+  - 12
   - 10
   - 8
-  - 6
 
 install:
   - git config --global core.autocrlf false

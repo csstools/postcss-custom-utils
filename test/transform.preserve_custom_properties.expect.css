@@ -1,0 +1,7 @@
+@media all and (max-width: 30em),all and (max-height: 30em) {}
+
+section { padding: 5px; }
+
+section { padding: 5px; padding: var(--length); }
+
+h1 + p,h2 + p,h3 + p,h4 + p,h5 + p,h6 + p {}

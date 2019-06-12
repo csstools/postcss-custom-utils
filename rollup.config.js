@@ -1,5 +1,4 @@
 import babel from 'rollup-plugin-babel';
-import { terser } from 'rollup-plugin-terser';
 
 export default {
 	input: 'src/index.js',
@@ -9,11 +8,8 @@ export default {
 	],
 	plugins: [
 		babel({
-			plugins: [
-				'@babel/syntax-dynamic-import'
-			],
 			presets: [
-				['@babel/env', { targets: { node: 6 } }]
+				['@babel/env', { targets: { node: 8 } }]
 			]
 		})
 	]
