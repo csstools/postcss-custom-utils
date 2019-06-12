@@ -1,0 +1,5 @@
+@media all and (--mq-a) {}
+
+section { padding: var(--length); }
+
+:--heading + p {}

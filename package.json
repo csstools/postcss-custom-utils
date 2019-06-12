@@ -20,7 +20,8 @@
     "test": "npm run test:js && npm run test:node",
     "test:js": "eslint src/{*,**/*}.js --cache --ignore-path .gitignore --quiet",
     "pretest:node": "npm run build",
-    "test:node": "jest"
+    "test:node": "jest",
+    "watch": "nodemon --exec \"npm run test:node\" --watch src --watch ./test.js"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -32,15 +33,14 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.5",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-jest": "^22.6.4",
+    "fse": "^4.0.1",
     "jest": "^24.8.0",
-    "rollup": "^1.14.6",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-terser": "^5.0.0"
+    "rollup": "^1.15.1",
+    "rollup-plugin-babel": "^4.3.2"
   },
   "eslintConfig": {
     "env": {

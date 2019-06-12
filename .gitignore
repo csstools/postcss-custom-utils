@@ -6,4 +6,4 @@ package-lock.json
 !.gitignore
 !.travis.yml
 /index.*
-/test/export.*
+*.result.*

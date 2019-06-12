@@ -1,11 +1,9 @@
 @custom-media --mq-a (max-width: 30em), (max-height: 30em);
 @custom-media --not-mq-a not all and (--mq-a);
-
 @custom-selector :--heading-higher h1, h2, h3;
 @custom-selector :--heading-lower h4, h5, h6;
 @custom-selector :--heading :--heading-higher, :--heading-lower;
-
 :root {
-	--length: 5px;
-	--length-5: var(--length-5, 5px);
+    --length: 5px;
+    --length-5: var(--length-5, 5px)
 }
