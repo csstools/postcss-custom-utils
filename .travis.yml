@@ -3,9 +3,9 @@
 language: node_js
 
 os:
-  - windows
   - linux
   - osx
+  - windows
 
 node_js:
   - 12
