@@ -3,6 +3,7 @@ import getFeatures from '../getFeatures';
 import getVariables from '../getVariables';
 import postcss from 'postcss';
 
+// write custom variables to an AST root
 export default function writeAST (root, options) {
 	const features = getFeatures(options);
 	const insert = getInsertStrategy(options);

@@ -3,7 +3,7 @@ import getVariables from '../getVariables';
 
 export default function writeESM (options) {
 	const features = getFeatures(options);
-	const { customMedia, customProperties, customSelectors } = getVariables(options);
+	const { customMedia, customProperties, customSelectors, environmentVariables } = getVariables(options);
 
 	const esmMediaContents = features.customMedia
 		? Object.keys(customMedia).reduce((esmLines, name) => {
@@ -29,12 +29,22 @@ export default function writeESM (options) {
 		}, []).join(',\n')
 	: '';
 
+	const esmEnvironmentContents = features.environmentVariables
+		? Object.keys(environmentVariables).reduce((esmLines, name) => {
+			esmLines.push(`\t'${escapeForJS(name)}': '${escapeForJS(environmentVariables[name])}'`);
+
+			return esmLines;
+		}, []).join(',\n')
+	: '';
+
 	const esm = `${esmMediaContents
 		? `export const customMedia = {\n${esmMediaContents}\n};\n${esmSelectorsContents || esmPropertiesContents ? '\n' : ''}`
 	: ''}${esmSelectorsContents
 		? `export const customSelectors = {\n${esmSelectorsContents}\n};\n${esmPropertiesContents ? '\n' : ''}`
 	: ''}${esmPropertiesContents
 		? `export const customProperties = {\n${esmPropertiesContents}\n};\n`
+	: ''}${esmEnvironmentContents
+		? `export const environmentVariables = {\n${esmEnvironmentContents}\n};\n`
 	: ''}`;
 
 	return esm;

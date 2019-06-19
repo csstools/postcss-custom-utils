@@ -6,7 +6,7 @@ import readRoot from './read/readRoot';
 /**
 * Return Custom Variables read from a variety of sources
 * @param {...*} sources
-* @return {Object} Custom Variables read from the sources
+* @return {Object} Custom Variables read from sources
 */
 
 export default function read (...sources) {
@@ -61,9 +61,5 @@ export default function read (...sources) {
 		);
 	});
 
-	const promise = Promise.all(promises).then(() => variables);
-
-	return Object.defineProperty({ ...variables }, 'then', {
-		value: promise.then.bind(promise)
-	});
+	return Object.assign(Promise.all(promises).then(() => variables), variables);
 }

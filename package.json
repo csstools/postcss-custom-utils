@@ -7,13 +7,13 @@
   "repository": "csstools/postcss-custom-utils",
   "homepage": "https://github.com/csstools/postcss-custom-utils#readme",
   "bugs": "https://github.com/csstools/postcss-custom-utils/issues",
-  "main": "index.js",
-  "module": "index.js",
+  "main": "index.cjs.js",
+  "module": "index.cjs.js",
   "files": [
-    "index.js",
-    "index.js.map",
-    "index.mjs",
-    "index.mjs.map"
+    "index.cjs.js",
+    "index.cjs.js.map",
+    "index.esm.mjs",
+    "index.esm.mjs.map"
   ],
   "scripts": {
     "build": "rollup --config --silent",
@@ -34,12 +34,12 @@
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
-    "babel-eslint": "^10.0.1",
+    "babel-eslint": "^10.0.2",
     "eslint": "^5.16.0",
     "eslint-plugin-jest": "^22.6.4",
     "fse": "^4.0.1",
     "jest": "^24.8.0",
-    "rollup": "^1.15.1",
+    "rollup": "^1.15.6",
     "rollup-plugin-babel": "^4.3.2"
   },
   "eslintConfig": {

@@ -1,9 +1,10 @@
 import getFeatures from '../getFeatures';
 import getVariables from '../getVariables';
 
+// return custom variables as a JSON string
 export default function writeJSON (options) {
 	const features = getFeatures(options);
-	const { customMedia, customProperties, customSelectors } = getVariables(options);
+	const { customMedia, customProperties, customSelectors, environmentVariables } = getVariables(options);
 
 	const jsonObject = {};
 
@@ -17,6 +18,10 @@ export default function writeJSON (options) {
 
 	if (features.customSelectors) {
 		jsonObject['custom-selectors'] = escapeObjectForJS(customSelectors);
+	}
+
+	if (features.environmentVariables) {
+		jsonObject['environment-variables'] = escapeObjectForJS(environmentVariables);
 	}
 
 	const jsonContents = JSON.stringify(jsonObject, null, '  ');
