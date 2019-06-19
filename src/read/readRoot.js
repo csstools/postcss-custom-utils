@@ -86,7 +86,8 @@ export default function readRoot (root, options) {
 	return {
 		customMedia,
 		customProperties: { ...customPropertiesFromHtmlElement, ...customPropertiesFromRootPsuedo },
-		customSelectors
+		customSelectors,
+		environmentVariables: {},
 	};
 }
 

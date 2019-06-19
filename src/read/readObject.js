@@ -13,17 +13,22 @@ export default function readObject (object) {
 
 	const customMedia = {
 		...Object(object.customMedia),
-		...Object(object['custom-media'])
+		...Object(object['custom-media']),
 	};
 
 	const customSelectors = {
 		...Object(object.customSelectors),
-		...Object(object['custom-selectors'])
+		...Object(object['custom-selectors']),
 	};
 
 	const customProperties = {
 		...Object(object.customProperties),
-		...Object(object['custom-properties'])
+		...Object(object['custom-properties']),
+	};
+
+	const environmentVariables = {
+		...Object(object.environmentVariables),
+		...Object(object['environment-variables']),
 	};
 
 	for (const key in customMedia) {
@@ -38,9 +43,14 @@ export default function readObject (object) {
 		customSelectors[key] = parseSelector(customSelectors[key]);
 	}
 
+	for (const key in environmentVariables) {
+		environmentVariables[key] = valueParser(String(environmentVariables[key]));
+	}
+
 	return {
 		customMedia,
 		customProperties,
-		customSelectors
+		customSelectors,
+		environmentVariables,
 	};
 }

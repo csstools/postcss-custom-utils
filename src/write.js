@@ -5,9 +5,10 @@ import writeRoot from './write/writeRoot';
 /**
 * Write Custom Variables to a variety of destinations
 * @param {...*} destinations
+* @param {Object} options
 */
 
-export default function read (...destinations) {
+export default function write (...destinations) {
 	const options = Object(destinations.pop());
 	const promises = [];
 
@@ -45,9 +46,5 @@ export default function read (...destinations) {
 		Object.assign(destination, moreOptions.variables);
 	});
 
-	const promise = Promise.all(promises).then(() => {});
-
-	return Object.defineProperty({}, 'then', {
-		value: promise.then.bind(promise)
-	});
+	return Promise.all(promises).then(() => {});
 }

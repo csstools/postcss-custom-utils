@@ -4,7 +4,7 @@ export default function getOptions (options) {
 	options = { ...Object(options) };
 
 	options.features = isVoid(options.features)
-		? { customMedia: true, customProperties: true, customSelectors: true }
+		? { customMedia: true, customProperties: true, customSelectors: true, environmentVariables: true }
 	: isObject(options.features)
 		? formatFeatureObject(options.features)
 	: formatFeatureObject([].concat(
@@ -21,7 +21,7 @@ export default function getOptions (options) {
 	));
 
 	options.preserve = isVoid(options.preserve) || options.preserve === true
-		? { customMedia: true, customProperties: true, customSelectors: true }
+		? { customMedia: true, customProperties: true, customSelectors: true, environmentVariables: true }
 	: isObject(options.preserve)
 		? formatFeatureObject(options.preserve)
 	: formatFeatureObject([].concat(
@@ -41,6 +41,7 @@ export default function getOptions (options) {
 		customMedia: Object(Object(options.variables).customMedia),
 		customProperties: Object(Object(options.variables).customProperties),
 		customSelectors: Object(Object(options.variables).customSelectors),
+		environmentVariables: Object(Object(options.variables).environmentVariables),
 	};
 
 	return options;

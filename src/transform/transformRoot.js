@@ -19,6 +19,10 @@ export default function transformRoot (root, options) {
 				...Object(Object(Object(options).variables).customSelectors),
 				...Object(variables.customSelectors),
 			},
+			environmentVariables: {
+				...Object(Object(Object(options).variables).environmentVariables),
+				...Object(variables.environmentVariables),
+			},
 		},
 	};
 

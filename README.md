@@ -4,160 +4,207 @@
 [![Build Status][cli-img]][cli-url]
 [![Support Chat][git-img]][git-url]
 
-[PostCSS Custom Utils] lets you read, write, and transform Custom Media and
-Custom Properties from almost anywhere.
+[PostCSS Custom Utils] lets you read, write, and transform Custom Variables,
+like Custom Properties, Custom Media, Custom Selectors, and Environment Variables.
 
-### readCustom
+## API
 
-The `readCustom` function reads Custom Media and Custom Properties from various
-sources, including Objects, Promises and Functions returning an Object, and
-also CSS, JS, and JSON files.
+### read
 
-```js
-await readCustom(...sources)
-```
-
-### readCustomFromCjsFile
-
-The `readCustomFromCjsFile` function returns Custom Media and Custom Properties
-from a Common JS file.
+The `read` method reads custom variables from a variety of sources.
 
 ```js
-await readCustomFromCjsFile('/path/to/file.js');
+util.read(
+  '/path/to/source.css',
+  { to: '/path/to/another/source', type: 'css' },
+  '/path/to/source/variables.js',
+  '/path/to/source/variables.json'
+)
 ```
 
-### readCustomFromCssFile
+For more details about configuring individual file sources, see
+[readFile](#readFile).
 
-The `readCustomFromCssFile` function returns Custom Media and Custom Properties
-from a CSS file.
+### readCSS
+
+The `readCSS` method returns an object of custom variables.
 
 ```js
-await readCustomFromCssFile('/path/to/file.css');
+util.readCSS(root, options) // options = { filename }
 ```
 
-### readCustomFromJsonFile
+#### readCSS filename Option
 
-The `readCustomFromJsonFile` function returns Custom Media and Custom
-Properties from a JSON file.
+The `readCSS` method accepts a `filename` option to determine the source
+mapping for variables.
+
+### readFile
 
 ```js
-await readCustomFromJsonFile('/path/to/file.json');
+util.readFile(filename, options) // options = { from, type, async }
 ```
 
-### readCustomFromObject
+#### readFile Type Option
 
-The `readCustomFromObject` function returns Custom Media and Custom Properties
-from an Object.
+The `readFile` method accepts a `type` option to control which kind of file is
+written — Common JS using `cjs` or `js`, ES Module using `esm` or `mjs`, JSON
+using `json`, and css using `css` or anything else. If not specified, the type
+will be determined by the file extension, and otherwise it will be `css`.
+
+_Note: There is no convention for writing Environment Variable declarations in CSS, and so those variables will not be read from CSS files._
+
+#### readFile Async Option
+
+The `readFile` method accepts a `async` option to control whether the function
+should run asynchronously. By default, all read methods run synchronously.
+
+### readRoot
+
+The `readRoot` method returns an object of custom variables from an AST Root.
 
 ```js
-readCustomFromObject({ customMedia, customProperties, customSelectors });
+util.readRoot(root, options) // options = { features, preserve }
 ```
 
-### readCustomFromRoot
+_Note: There is no convention for writing Environment Variable declarations in CSS, and so those variables will not be written._
 
-The `readCustomFromRoot` function return Custom Media and Custom Properties
-from a CSS Root AST.
+### readRoot Features Option
+
+The `readRoot` method accepts a `features` option to determine which kinds of
+custom variables will be read from the AST Root.
+
+The available options are `customMedia`, `customProperties`, `customSelectors`,
+and `environmentVariables`.
+
+### readRoot Preserve Option
+
+The `readRoot` method accepts a `preserve` option to determine which kinds of
+custom variables will be preserved from the AST Root, rather than removed.
+
+The available options are `customMedia`, `customProperties`, `customSelectors`,
+and `environmentVariables`.
+
+### transformCSS
+
+The `transformCSS` method returns a transformed string of CSS using custom
+variables.
 
 ```js
-readCustomFromRoot({ nodes: [] });
+util.transformCSS(css_string, options) // options = { variables }
 ```
 
-### transformRootWithCustom
+### transformFile
+
+The `transformFile` method returns a transformed string of CSS from a file
+using custom variables.
 
 ```js
-transformRootWithCustom(root, { customMedia, customProperties, customSelectors });
+util.transformFile('path/to/style.css', options) // options = { variables }
 ```
 
-### transformRootWithCustomMedia
+### transformRoot
+
+The `transformRoot` method returns a transformed AST Root using custom
+variables.
 
 ```js
-transformRootWithCustomMedia(root, customMedia);
+util.transformFile('path/to/style.css', options) // options = { variables }
 ```
 
-### transformRootWithCustomProperties
+### write
+
+The `write` method writes custom variables to a variety of destinations.
 
 ```js
-transformRootWithCustomProperties(root, customProperties);
+util.write(
+  '/path/to/destination.css',
+  { to: '/path/to/destination', type: 'css' },
+  options // options = { async }
+)
 ```
 
-### transformRootWithCustomSelectors
+The last argument passed into the `write` method are the options.
+
+#### write Async Option
+
+The `write` method accepts a `async` option to control whether the function
+should run asynchronously. By default, all write methods run synchronously.
+
+### writeFile
+
+The `writeFile` method writes custom variables to a file.
 
 ```js
-transformRootWithCustomSelectors(root, customSelectors);
+util.writeFile(filename, options) // options = { type }
 ```
 
-### transformStringWithCustomMedia
+#### writeFile Type Option
 
-The `transformStringWithCustomMedia` function returns a Media Query parameter
-string transformed with Custom Media.
+The `writeCSS` method accepts a `type` option to control which kind of file is
+written — Common JS using `cjs` or `js`, ES Module using `esm` or `mjs`, JSON
+using `json`, and css using `css` or anything else.
+
+_Note: There is no convention for writing Environment Variable declarations in CSS, and so those variables will not be written to CSS files._
+
+#### writeFile Async Option
+
+The `writeFile` method accepts a `async` option to control whether the function
+should run asynchronously. By default, the `writeFile` methods runs
+synchronously.
+
+### writeCJS
+
+The `writeCJS` method returns custom variables as an Common JS string of code.
 
 ```js
-transformStringWithCustomMedia('(--custom-media)', customMedia);
+util.writeCJS(root, options)
 ```
 
-### transformStringWithCustomProperties
+### writeCSS
 
-The `transformStringWithCustomProperties` function returns a Declaration Value
-string transformed with Custom Properties.
+The `writeCSS` method returns a CSS string of custom variables.
 
 ```js
-transformStringWithCustomProperties('var(--custom-property)', customProperties);
+util.writeRoot(root, options) // options = { insert }
 ```
 
-### transformStringWithCustomSelectors
+_Note: There is no convention for writing Environment Variable declarations in CSS, and so those variables will not be written._
 
-The `transformStringWithCustomSelectors` function returns a Selector Value
-string transformed with Custom Selectors.
+#### writeCSS Insert Option
+
+The `writeCSS` method accepts a `insert` option to control whether the custom
+variables are inserted `before` or `after` the other CSS.
+
+### writeESM
+
+The `writeESM` method returns custom variables as an ES Module string of code.
 
 ```js
-transformStringWithCustomSelectors(':--any-heading + p', customSelectors);
+util.writeESM(root, options)
 ```
 
-### writeCustom
+### writeJSON
 
-The `writeCustomToJsonFile` function writes Custom Media and Custom Properties
-to various sources, including Objects, Functions, and also CSS and JS files,
-ECMAScript Modules compatible JS files, and JSON files.
+The `writeJSON` method returns custom variables as a JSON string.
 
 ```js
-await writeCustom({ customMedia, customProperties, customSelectors }, ...destinations);
+util.writeJSON(root, options)
 ```
 
-### writeCustomToCjsFile
+### writeRoot
 
-The `writeCustomToJsonFile` function writes Custom Media and Custom Properties
-to a Common JS file.
+The `writeRoot` method returns an Root object with inserted custom variables.
 
 ```js
-await writeCustomToCjsFile('/path/to/file.js', { customMedia, customProperties, customSelectors });
+util.writeRoot(root, options) // options = { insert }
 ```
 
-### writeCustomToCssFile
+_Note: There is no convention for writing Environment Variable declarations in CSS, and so those variables will not be written._
 
-The `writeCustomToJsonFile` function writes Custom Media and Custom Properties
-to a CSS file.
+#### writeRoot Insert Option
 
-```js
-await writeCustomToCssFile('/path/to/file.css', { customMedia, customProperties, customSelectors });
-```
-
-### writeCustomToEsmFile
-
-The `writeCustomToJsonFile` function writes Custom Media and Custom Properties
-to a ECMAScript Modules compatible JS file.
-
-```js
-await writeCustomToEsmFile('/path/to/file.mjs', { customMedia, customProperties, customSelectors });
-```
-
-### writeCustomToJsonFile
-
-The `writeCustomToJsonFile` function writes Custom Media and Custom Properties
-to a JSON file.
-
-```js
-await writeCustomToJsonFile('/path/to/file.json', { customMedia, customProperties, customSelectors });
-```
+The `writeRoot` method accepts a `insert` option to control whether the custom
+variables are inserted `before` or `after` the other CSS.
 
 [cli-img]: https://img.shields.io/travis/csstools/postcss-custom-utils/master.svg
 [cli-url]: https://travis-ci.org/csstools/postcss-custom-utils

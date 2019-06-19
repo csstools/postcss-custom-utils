@@ -1,0 +1,5 @@
+@media (min-width: env(--branding-small)) {
+	custom-component {
+		min-width: env(--branding-small);
+	}
+}

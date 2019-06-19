@@ -212,3 +212,13 @@ describe('util.transformRoot', () => {
 		return expect(resultCSS).toBe(expectCSS);
 	});
 });
+
+describe('custom environment variables', () => {
+	const variables = util.read('./test/custom-env.js');
+	const resultCSS = util.transformFile('./test/custom-env.css', { variables });
+	const expectCSS = fs.readFileSync('./test.custom-env.expect.css', 'utf8');
+
+	test('transforms environment variables', () => {
+		return expect(resultCSS).toBe(expectCSS);
+	});
+})

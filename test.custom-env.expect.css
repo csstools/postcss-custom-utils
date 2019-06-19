@@ -1,0 +1,12 @@
+@media (min-width: 600px) {
+	custom-component {
+		min-width: 600px;
+		min-width: env(--branding-small);
+	}
+}
+@media (min-width: env(--branding-small)) {
+	custom-component {
+		min-width: 600px;
+		min-width: env(--branding-small);
+	}
+}

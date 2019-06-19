@@ -4,7 +4,7 @@ export default function getFeatures (options) {
 	options = Object(options);
 
 	return isVoid(options.features)
-		? { customMedia: true, customProperties: true, customSelectors: true }
+		? { customMedia: true, customProperties: true, customSelectors: true, environmentVariables: true }
 	: isObject(options.features)
 		? formatObject(options.features)
 	: formatObject([].concat(

@@ -5,5 +5,6 @@ export default function getVariables (options) {
 		customMedia: Object(variables.customMedia),
 		customProperties: Object(variables.customProperties),
 		customSelectors: Object(variables.customSelectors),
+		environmentVariables: Object(variables.environmentVariables),
 	};
 }
